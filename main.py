@@ -17,6 +17,12 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='!')
 
 
+# on ready
+@bot.event
+async def on_ready():
+    print("Bot is up and running!")
+
+
 # Greetings Feature
 @bot.event
 async def on_member_join(member):
@@ -45,8 +51,32 @@ async def roll(res, num_of_dice: int):
 
 
 # Work in progress
-# @bot.command(name='poll', help = 'Makes a poll or vote action')
-# async def poll_maker():
+@bot.command(name='poll', help='Makes a poll or vote action')
+async def poll_maker(res, num_of_opt: int):
+    num = str(num_of_opt)
+    ask = "You chose " + num + " options. enter the poll options below"
+    await res.send(ask)
+    # strings to hold options
+    options = ["init"]
+    # counter
+    counter = 0
+    while counter != num_of_opt:
+        await res.send(str(counter + 1) + " <--- Enter")
+        option_input = await bot.wait_for('message', timeout=60.0)
+        print("input capture --> " + str(option_input))
+        options.append(option_input.content)
+        counter += 1
+
+    print(options)
+
+
+# audio playback
+
+
+# dnd game
+
+
+# quick web search
 
 
 bot.run(TOKEN)
